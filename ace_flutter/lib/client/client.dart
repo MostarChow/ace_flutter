@@ -46,7 +46,7 @@ class _ClientState extends State<Client> {
 
   Widget listView(int type) {
     return ListView.builder(
-        itemCount: 10000,
+        itemCount: 100,
         itemBuilder: (BuildContext context, int index) {
         return cell(type, index);
     });

@@ -62,7 +62,7 @@ class _SettingsState extends State<Settings> {
 
           Container(
             color: Color(0x6666666F),
-            height: 0.3,
+            height: 0.5,
           )
 
         ],
