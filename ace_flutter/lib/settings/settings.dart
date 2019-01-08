@@ -39,7 +39,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void onTap() {
-}
+  }
 
   Widget contentView(int index) {
     String text = _texts[index];
@@ -61,7 +61,7 @@ class _SettingsState extends State<Settings> {
           ),
 
           Container(
-            color: Color(0x666666FF),
+            color: Color(0x6666666F),
             height: 0.3,
           )
 
