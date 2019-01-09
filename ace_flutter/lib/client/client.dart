@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'detail.dart';
 
 class Client extends StatefulWidget {
   @override
@@ -7,7 +8,25 @@ class Client extends StatefulWidget {
   }
 }
 
-class _ClientState extends State<Client> {
+class _ClientState extends State<Client> with AutomaticKeepAliveClientMixin {
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
+  var _totalView;
+  var _recentlyView;
+  var _frequencyView;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _totalView = listView(0);
+    _recentlyView = listView(1);
+    _frequencyView = listView(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -16,7 +35,11 @@ class _ClientState extends State<Client> {
             appBar: AppBar(
               title: Text('全部客户'),
               actions: <Widget>[
-                IconButton(icon: Icon(Icons.search), onPressed: searchOnPressed),
+                IconButton(
+                    icon: Icon(Icons.search),
+                    onPressed: (){
+                      print('点击搜索');
+                    }),
               ],
               bottom: tabBar(),
             ),
@@ -37,9 +60,9 @@ class _ClientState extends State<Client> {
   Widget tabBarView() {
     return TabBarView(
         children: <Widget> [
-          listView(0),
-          listView(1),
-          listView(2),
+          _totalView,
+          _recentlyView,
+          _frequencyView,
         ]
     );
   }
@@ -53,7 +76,7 @@ class _ClientState extends State<Client> {
   }
 
   Widget cell(int type, int index) {
-    Row cell = Row(
+    Widget view = Row(
       children: <Widget>[
         // 头像
         Material(
@@ -72,15 +95,25 @@ class _ClientState extends State<Client> {
         Icon(Icons.keyboard_arrow_right)
       ],
     );
-    return Container(
-        color: Colors.white,
+    Widget contentView = Container(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Container(child: cell, padding: EdgeInsets.all(15)),
+            Container(child: view, padding: EdgeInsets.all(15)),
             Container(color: Color(0x6666666F), height: 0.5)
           ],
         ),
+    );
+
+    return MaterialButton(
+        onPressed: () {
+          Navigator.push(context, new MaterialPageRoute(builder: (context) {
+            return ClientDetail();
+          }));
+        },
+        child: contentView,
+        padding: EdgeInsets.all(0),
+        color: Colors.white,
     );
   }
 
@@ -131,8 +164,5 @@ class _ClientState extends State<Client> {
         ],
       ),
     );
-  }
-
-  void searchOnPressed() {
   }
 }

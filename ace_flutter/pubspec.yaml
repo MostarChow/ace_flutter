@@ -77,3 +77,6 @@ flutter:
     - assets/images/store_order.png
     - assets/images/store_after-sales.png
     - assets/images/store_header_bg.png
+    - assets/images/client_header_bg.png
+    - assets/images/client_spade.png
+    - assets/images/client_add_tag_small.png

@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import '../settings/settings.dart';
+import 'dart:io';
+import 'dart:convert';
 
 class Store extends StatefulWidget {
-@override
+  @override
   State<StatefulWidget> createState() {
-    return _StoreState();
+    return StoreState();
   }
 }
 
-class _StoreState extends State<Store> {
+class StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
+
+  double _turnover = 0;
+  int _visitors = 0;
+  int _orders = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print('初始化了');
+    _getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +31,11 @@ class _StoreState extends State<Store> {
       appBar: AppBar(
         title: Text('Ace商家版'),
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.settings), onPressed: onPressed),
+          IconButton(icon: Icon(Icons.settings), onPressed: (){
+            Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
+              return new Settings();
+            }));
+          }),
         ],
       ),
       backgroundColor: Color(0xF5F5F5FF),
@@ -28,16 +46,43 @@ class _StoreState extends State<Store> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // 头部
-          header(),
+          _header(),
           // 按钮
-          menuItem(),
+          _menuItem(),
         ]
     ),
     );
   }
 
-  Widget header() {
-    Widget bgImage = Image(image: AssetImage('assets/images/store_header_bg.png'),
+  _getData() async {
+    String host = 'https://www.easy-mock.com/mock/5c3590153df7227eb0a9d485/acestore';
+    String method = '/today';
+
+    var data;
+
+    var http = new HttpClient();
+    var url = Uri.parse(host + method);
+    var request = await http.postUrl(url);
+    var response = await request.close();
+    var responseBody = await response.transform(utf8.decoder).join();
+    print('开始请求');
+    if (response.statusCode == 200) {
+      print('请求成功');
+      Map responseJson = json.decode(responseBody);
+      data = responseJson['data'];
+    } else {
+      print('请求失败:' + url.toString() + '\n' + responseBody);
+    }
+
+    setState(() {
+      _turnover = data['turnover'];
+      _visitors = data['visitors'];
+      _orders = data['orders'];
+    });
+  }
+
+  Widget _header() {
+    Widget bgImage = Image.asset('assets/images/store_header_bg.png',
     height: 202,
     );
 
@@ -50,30 +95,21 @@ class _StoreState extends State<Store> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              '当日成交金额（元）',
-              style: TextStyle(
-                  color: Colors.white
-              ),
+            Text('当日成交金额（元）', style: TextStyle(color: Colors.white),
             ),
 
             Container(
             padding: EdgeInsets.only(top: 12, bottom: 23),
-             child:  Text(
-               '1234.00',
-               style: TextStyle(
-                 color: Colors.white,
-                 fontSize: 40,
-               ),
+             child:  Text(_turnover.toStringAsFixed(2), style: TextStyle(color: Colors.white, fontSize: 40),
              ),
            ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Text('浏览人数' + '\n' + '4567', style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+                Text('浏览人数' + '\n' + _visitors.toString(), style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
                 Container(width: 0.5, height: 32, color: Colors.white),
-                Text('付款订单数' + '\n' + '123', style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+                Text('付款订单数' + '\n' + _orders.toString(), style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
 
               ],
             )
@@ -84,7 +120,7 @@ class _StoreState extends State<Store> {
     );
   }
 
-  Widget menuItem() {
+  Widget _menuItem() {
     double width = MediaQuery.of(context).size.width/3;
 
     Widget menuLayout = Wrap(
@@ -94,7 +130,9 @@ class _StoreState extends State<Store> {
           height: width,
           width: width,
           child: MaterialButton(
-            onPressed: menuOnPressed,
+            onPressed: (){
+              print('店铺管理');
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +151,9 @@ class _StoreState extends State<Store> {
           height: width,
           width: width,
           child: MaterialButton(
-            onPressed: menuOnPressed,
+            onPressed: (){
+              print('推广信息');
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -132,7 +172,9 @@ class _StoreState extends State<Store> {
           height: width,
           width: width,
           child: MaterialButton(
-            onPressed: menuOnPressed,
+            onPressed: (){
+              print('数据统计');
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -151,7 +193,9 @@ class _StoreState extends State<Store> {
           height: width,
           width: width,
           child: MaterialButton(
-            onPressed: menuOnPressed,
+            onPressed: (){
+              print('订单管理');
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -170,7 +214,9 @@ class _StoreState extends State<Store> {
           height: width,
           width: width,
           child: MaterialButton(
-            onPressed: menuOnPressed,
+            onPressed: (){
+              print('退换售后');
+            },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -197,12 +243,6 @@ class _StoreState extends State<Store> {
     );
   }
 
-  void onPressed() {
-  Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-    return new Settings();
-  }));
-  }
-
-  void menuOnPressed() {
-  }
+  @override
+  bool get wantKeepAlive => true;
 }

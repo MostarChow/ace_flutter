@@ -11,8 +11,12 @@ class _MineState extends State<Mine> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-      color: Colors.blue,
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('个人中心'),
+      ),
+
     );
   }
+
 }

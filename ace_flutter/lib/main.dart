@@ -38,6 +38,9 @@ class Index extends StatefulWidget {
 
 class _IndexState extends State<Index> {
   int _selectedIndex = 0;
+  var _store = new Store();
+  var _client = new Client();
+  var _mine = new Mine();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +56,7 @@ class _IndexState extends State<Index> {
         fixedColor: Colors.black,
         onTap: _onTap,
       ),
-      body: _onTapIndex(_selectedIndex),
+      body: _onTapIndex(),
     );
   }
 
@@ -63,16 +66,16 @@ class _IndexState extends State<Index> {
   });
   }
 
-  Widget _onTapIndex(int index)  {
-    switch (index) {
+  Widget _onTapIndex() {
+    switch (_selectedIndex) {
       case 0: {
-        return Store();
+        return _store;
       }
       case 1: {
-        return Client();
+        return _client;
       }
       case 2: {
-        return Mine();
+        return _mine;
       }
     }
     return null;

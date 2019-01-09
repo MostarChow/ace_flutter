@@ -35,18 +35,20 @@ class _SettingsState extends State<Settings> {
   }
 
   Widget cell(int index) {
-    return contentView(index);
-  }
-
-  void onTap() {
+    return MaterialButton(
+      onPressed: () {
+        print(index.toString());
+      },
+      child: contentView(index),
+      padding: EdgeInsets.zero,
+      color: Colors.white,
+    );
   }
 
   Widget contentView(int index) {
     String text = _texts[index];
     return Container(
-      color: Colors.white,
-      child:
-      Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(
@@ -70,5 +72,4 @@ class _SettingsState extends State<Settings> {
 
     );
   }
-  
 }
