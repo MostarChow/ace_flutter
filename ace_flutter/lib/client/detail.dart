@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ClientDetail extends StatefulWidget {
+class Detail extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ClientDetailState();
+    return _DetailState();
   }
 }
 
-class _ClientDetailState extends State<ClientDetail> {
+class _DetailState extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build

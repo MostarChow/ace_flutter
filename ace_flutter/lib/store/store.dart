@@ -7,11 +7,11 @@ import 'dart:convert';
 class Store extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return StoreState();
+    return _StoreState();
   }
 }
 
-class StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
+class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
 
   double _turnover = 0;
   int _visitors = 0;
@@ -21,16 +21,17 @@ class StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-    print('初始化了');
     _getData();
   }
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Ace商家版'),
         actions: <Widget>[
+          // 设置
           IconButton(icon: Icon(Icons.settings), onPressed: (){
             Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
               return new Settings();
@@ -40,19 +41,12 @@ class StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
       ),
       backgroundColor: Color(0xF5F5F5FF),
 
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          // 头部
-          _header(),
-          // 按钮
-          _menuItem(),
-        ]
-    ),
+      body: _body()
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 
   _getData() async {
     String host = 'https://www.easy-mock.com/mock/5c3590153df7227eb0a9d485/acestore';
@@ -79,6 +73,20 @@ class StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
       _visitors = data['visitors'];
       _orders = data['orders'];
     });
+  }
+
+  Widget _body() {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          // 头部
+          _header(),
+          // 按钮
+          _menuItem(),
+        ]
+    );
   }
 
   Widget _header() {
@@ -243,6 +251,4 @@ class StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
 }

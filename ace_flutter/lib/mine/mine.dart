@@ -7,10 +7,15 @@ class Mine extends StatefulWidget {
   }
 }
 
-class _MineState extends State<Mine> {
+class _MineState extends State<Mine> with AutomaticKeepAliveClientMixin {
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('个人中心'),
