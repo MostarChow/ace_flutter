@@ -74,7 +74,10 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
       children: <Widget>[
         // 头像
         ClipOval(
-          child: Image.network(imageUrl, fit: BoxFit.fill, width: 50, height: 50),
+          child: Image.network(
+              imageUrl, 
+              fit: BoxFit.fill,
+              width: 50, height: 50),
         ),
         // 文字
         Expanded(child:textView(index)),

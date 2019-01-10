@@ -16,39 +16,70 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
   double _turnover = 0;
   int _visitors = 0;
   int _orders = 0;
+  var _grids = List();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _getData();
+
+    _grids = [
+      {
+        "text": "店铺管理",
+        "icon": ImageIcon(
+            AssetImage('assets/images/store_management.png'), size: 33)
+      },
+      {
+        "text": "推广信息",
+        "icon": ImageIcon(
+            AssetImage('assets/images/store_popularize.png'), size: 33)
+      },
+      {
+        "text": "数据统计",
+        "icon": ImageIcon(
+            AssetImage('assets/images/store_statistics.png'), size: 33)
+      },
+      {
+        "text": "订单管理",
+        "icon": ImageIcon(AssetImage('assets/images/store_order.png'), size: 33)
+      },
+      {
+        "text": "退换售后",
+        "icon": ImageIcon(
+            AssetImage('assets/images/store_after-sales.png'), size: 33)
+      },
+      {} // 空白
+    ];
+
+    getData();
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Ace商家版'),
-        actions: <Widget>[
-          // 设置
-          IconButton(icon: Icon(Icons.settings), onPressed: (){
-            Navigator.of(context).push(new MaterialPageRoute(builder: (context) {
-              return new Settings();
-            }));
-          }),
-        ],
-      ),
-      backgroundColor: Color(0xF5F5F5FF),
+        appBar: AppBar(
+          title: Text('Ace商家版'),
+          actions: <Widget>[
+            // 设置
+            IconButton(icon: Icon(Icons.settings), onPressed: () {
+              Navigator.of(context).push(
+                  new MaterialPageRoute(builder: (context) {
+                    return new Settings();
+                  }));
+            }),
+          ],
+        ),
+        backgroundColor: Color(0xF5F5F5FF),
 
-      body: _body()
+        body: body()
     );
   }
 
   @override
   bool get wantKeepAlive => true;
 
-  _getData() async {
+  getData() async {
     String host = 'https://www.easy-mock.com/mock/5c3590153df7227eb0a9d485/acestore';
     String method = '/today';
 
@@ -75,23 +106,23 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
     });
   }
 
-  Widget _body() {
+  Widget body() {
     return Column(
         mainAxisAlignment: MainAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           // 头部
-          _header(),
+          header(),
           // 按钮
-          _menuItem(),
+          Expanded(flex: 1, child: grid()),
         ]
     );
   }
 
-  Widget _header() {
+  Widget header() {
     Widget bgImage = Image.asset('assets/images/store_header_bg.png',
-    height: 202,
+      height: 202,
     );
 
     return Stack(
@@ -107,17 +138,22 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
             ),
 
             Container(
-            padding: EdgeInsets.only(top: 12, bottom: 23),
-             child:  Text(_turnover.toStringAsFixed(2), style: TextStyle(color: Colors.white, fontSize: 40),
-             ),
-           ),
+              padding: EdgeInsets.only(top: 12, bottom: 23),
+              child: Text(_turnover.toStringAsFixed(2),
+                style: TextStyle(color: Colors.white, fontSize: 40),
+              ),
+            ),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Text('浏览人数' + '\n' + _visitors.toString(), style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+                Text('浏览人数' + '\n' + _visitors.toString(),
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,),
                 Container(width: 0.5, height: 32, color: Colors.white),
-                Text('付款订单数' + '\n' + _orders.toString(), style: TextStyle(color: Colors.white), textAlign: TextAlign.center,),
+                Text('付款订单数' + '\n' + _orders.toString(),
+                  style: TextStyle(color: Colors.white),
+                  textAlign: TextAlign.center,),
 
               ],
             )
@@ -128,127 +164,44 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
     );
   }
 
-  Widget _menuItem() {
-    double width = MediaQuery.of(context).size.width/3;
-
-    Widget menuLayout = Wrap(
+  Widget grid() {
+    var grid = GridView.count(
+      padding: EdgeInsets.only(top: 11),
+      physics: BouncingScrollPhysics(),
+      crossAxisCount: 3,
       children: <Widget>[
-        Container(
-          color: Colors.white,
-          height: width,
-          width: width,
-          child: MaterialButton(
-            onPressed: (){
-              print('店铺管理');
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: ImageIcon(AssetImage('assets/images/store_management.png'),size: 33),
-                  padding: EdgeInsets.all(14),
-                ),
-                Text('店铺管理')
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.white,
-          height: width,
-          width: width,
-          child: MaterialButton(
-            onPressed: (){
-              print('推广信息');
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: ImageIcon(AssetImage('assets/images/store_popularize.png'),size: 33),
-                  padding: EdgeInsets.all(14),
-                ),
-                Text('推广信息')
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.white,
-          height: width,
-          width: width,
-          child: MaterialButton(
-            onPressed: (){
-              print('数据统计');
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: ImageIcon(AssetImage('assets/images/store_statistics.png'),size: 33),
-                  padding: EdgeInsets.all(14),
-                ),
-                Text('数据统计')
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.white,
-          height: width,
-          width: width,
-          child: MaterialButton(
-            onPressed: (){
-              print('订单管理');
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: ImageIcon(AssetImage('assets/images/store_order.png'),size: 33),
-                  padding: EdgeInsets.all(14),
-                ),
-                Text('订单管理')
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.white,
-          height: width,
-          width: width,
-          child: MaterialButton(
-            onPressed: (){
-              print('退换售后');
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  child: ImageIcon(AssetImage('assets/images/store_after-sales.png'),size: 33),
-                  padding: EdgeInsets.all(14),
-                ),
-                Text('退换售后')
-              ],
-            ),
-          ),
-        ),
-        Container(
-          color: Colors.white,
-          height: width,
-          width: width,
-        ),
+        item(0), item(1), item(2), item(3), item(4), item(5)
       ],
     );
-    return Container(
-      padding: EdgeInsets.only(top: 11),
-      child: menuLayout,
-    );
+    return grid;
   }
 
+  Widget item(int index) {
+    var title = _grids[index]['text'];
+    var icon = _grids[index]['icon'];
+
+    if (index+1 < _grids.length) {
+      return Container(
+        color: Colors.white,
+        child: MaterialButton(
+          onPressed: () {
+            print(title);
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                child: icon,
+                padding: EdgeInsets.all(14),
+              ),
+              Text(title)
+            ],
+          ),
+        ),
+      );
+    } else {
+      return Container(color: Colors.white);
+    }
+  }
 }
