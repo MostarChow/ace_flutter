@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'store/store.dart';
-import 'client/client.dart';
-import 'mine/mine.dart';
+import 'modules/store/store.dart';
+import 'modules/client/client.dart';
+import 'modules/mine/mine.dart';
 
 /// Main
 

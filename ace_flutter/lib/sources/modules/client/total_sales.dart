@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import '../utils/networking.dart';
+import '../../utils/networking.dart';
 import 'detail.dart';
 
-class ShoppingTimes extends StatefulWidget {
+
+class TotalSales extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _ShoppingTimesState();
+    return _TotalSalesState();
   }
 }
 
-class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveClientMixin {
+class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMixin {
 
   @override
   // TODO: implement wantKeepAlive
@@ -21,7 +22,8 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
   void initState() {
     // TODO: implement initState
     super.initState();
-    Networking().post('/client/type=2', (data) {
+
+    Networking().post('/client/type=0', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];
@@ -33,7 +35,6 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       body: listView(),
     );
@@ -43,8 +44,8 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
     return ListView.builder(
         itemCount: _clients.length,
         itemBuilder: (BuildContext context, int index){
-          return cell(index);
-        });
+        return cell(index);
+    });
   }
 
   Widget cell(int index) {
@@ -55,7 +56,10 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
       children: <Widget>[
         // 头像
         ClipOval(
-          child: Image.network(imageUrl, fit: BoxFit.fill, width: 50, height: 50),
+          child: Image.network(
+              imageUrl, 
+              fit: BoxFit.fill,
+              width: 50, height: 50),
         ),
         // 文字
         Expanded(child:textView(index)),
@@ -89,7 +93,7 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
   Widget textView(int index) {
 
     var name = _clients[index]['username'];
-    int frequency = _clients[index]['frequency'];
+    double totalSales = _clients[index]['totalSales'];
 
     return Container(
       padding: EdgeInsets.only(left: 10),
@@ -100,12 +104,12 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
           Text(name, style: TextStyle(fontSize: 14)),
           Row(
             children: <Widget>[
-              Text('购买次数',
+              Text('总交易额',
                 style: TextStyle(fontSize: 16,
                   color: Color.fromRGBO(153, 153, 153, 1),
                 ),
               ),
-              Text(frequency.toString()+'次',
+              Text('¥'+totalSales.toStringAsFixed(2),
                 style: TextStyle(fontSize: 16,
                   color: Color.fromRGBO(233, 0, 0, 1),
                 ),

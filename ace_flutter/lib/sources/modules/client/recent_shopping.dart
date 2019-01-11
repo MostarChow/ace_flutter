@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
-import '../utils/networking.dart';
+import '../../utils/networking.dart';
 import 'detail.dart';
 
-
-class TotalSales extends StatefulWidget {
+class RecentShopping extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _TotalSalesState();
+    return _RecentShoppingState();
   }
 }
 
-class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMixin {
+class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAliveClientMixin {
 
   @override
   // TODO: implement wantKeepAlive
@@ -22,8 +21,7 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Networking().post('/client/type=0', (data) {
+    Networking().post('/client/type=1', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];
@@ -44,8 +42,8 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
     return ListView.builder(
         itemCount: _clients.length,
         itemBuilder: (BuildContext context, int index){
-        return cell(index);
-    });
+          return cell(index);
+        });
   }
 
   Widget cell(int index) {
@@ -56,10 +54,7 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
       children: <Widget>[
         // 头像
         ClipOval(
-          child: Image.network(
-              imageUrl, 
-              fit: BoxFit.fill,
-              width: 50, height: 50),
+          child: Image.network(imageUrl, fit: BoxFit.fill, width: 50, height: 50),
         ),
         // 文字
         Expanded(child:textView(index)),
@@ -93,7 +88,7 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
   Widget textView(int index) {
 
     var name = _clients[index]['username'];
-    double totalSales = _clients[index]['totalSales'];
+    String date = _clients[index]['date'];
 
     return Container(
       padding: EdgeInsets.only(left: 10),
@@ -104,12 +99,12 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
           Text(name, style: TextStyle(fontSize: 14)),
           Row(
             children: <Widget>[
-              Text('总交易额',
+              Text('最近交易于',
                 style: TextStyle(fontSize: 16,
                   color: Color.fromRGBO(153, 153, 153, 1),
                 ),
               ),
-              Text('¥'+totalSales.toStringAsFixed(2),
+              Text(date,
                 style: TextStyle(fontSize: 16,
                   color: Color.fromRGBO(233, 0, 0, 1),
                 ),
@@ -121,4 +116,5 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
       ),
     );
   }
+
 }

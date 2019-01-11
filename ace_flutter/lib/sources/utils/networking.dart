@@ -13,13 +13,12 @@ class Networking {
     var url = host + method;
     networking.post(url, headers: headers).then((response) {
       if (response.statusCode == 200) {
-        print('请求成功');
         var responseBody = response.body;
         var responseJson = json.decode(responseBody);
         var data = responseJson['data'];
         callback(data);
       } else {
-        print('请求失败');
+        callback();
       }
     });
   }

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'dart:io';
-import 'dart:convert';
-import '../utils/networking.dart';
-
+import '../../utils/networking.dart';
 import '../settings/settings.dart';
 
 class Store extends StatefulWidget {

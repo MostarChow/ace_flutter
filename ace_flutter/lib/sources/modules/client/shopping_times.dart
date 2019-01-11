@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import '../utils/networking.dart';
+import '../../utils/networking.dart';
 import 'detail.dart';
 
-class RecentShopping extends StatefulWidget {
+class ShoppingTimes extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _RecentShoppingState();
+    return _ShoppingTimesState();
   }
 }
 
-class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAliveClientMixin {
+class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveClientMixin {
 
   @override
   // TODO: implement wantKeepAlive
@@ -21,7 +21,7 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
   void initState() {
     // TODO: implement initState
     super.initState();
-    Networking().post('/client/type=1', (data) {
+    Networking().post('/client/type=2', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];
@@ -33,6 +33,7 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       body: listView(),
     );
@@ -88,7 +89,7 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
   Widget textView(int index) {
 
     var name = _clients[index]['username'];
-    String date = _clients[index]['date'];
+    int frequency = _clients[index]['frequency'];
 
     return Container(
       padding: EdgeInsets.only(left: 10),
@@ -99,12 +100,12 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
           Text(name, style: TextStyle(fontSize: 14)),
           Row(
             children: <Widget>[
-              Text('最近交易于',
+              Text('购买次数',
                 style: TextStyle(fontSize: 16,
                   color: Color.fromRGBO(153, 153, 153, 1),
                 ),
               ),
-              Text(date,
+              Text(frequency.toString()+'次',
                 style: TextStyle(fontSize: 16,
                   color: Color.fromRGBO(233, 0, 0, 1),
                 ),
@@ -116,5 +117,4 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
       ),
     );
   }
-
 }
