@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../settings/settings.dart';
 import 'dart:io';
 import 'dart:convert';
+import '../utils/networking.dart';
+
+import '../settings/settings.dart';
 
 class Store extends StatefulWidget {
   @override
@@ -12,6 +14,9 @@ class Store extends StatefulWidget {
 }
 
 class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
+
+  @override
+  bool get wantKeepAlive => true;
 
   double _turnover = 0;
   int _visitors = 0;
@@ -51,7 +56,15 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
       {} // 空白
     ];
 
-    getData();
+    Networking().post('/today', (data) {
+      if (mounted) {
+        setState(() {
+          _turnover = data['turnover'];
+          _visitors = data['visitors'];
+          _orders = data['orders'];
+        });
+      }
+   });
   }
 
   @override
@@ -74,36 +87,6 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
 
         body: body()
     );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
-
-  getData() async {
-    String host = 'https://www.easy-mock.com/mock/5c3590153df7227eb0a9d485/acestore';
-    String method = '/today';
-
-    var data;
-
-    var http = new HttpClient();
-    var url = Uri.parse(host + method);
-    var request = await http.postUrl(url);
-    var response = await request.close();
-    var responseBody = await response.transform(utf8.decoder).join();
-    print('开始请求');
-    if (response.statusCode == 200) {
-      print('请求成功');
-      Map responseJson = json.decode(responseBody);
-      data = responseJson['data'];
-    } else {
-      print('请求失败:' + url.toString() + '\n' + responseBody);
-    }
-
-    setState(() {
-      _turnover = data['turnover'];
-      _visitors = data['visitors'];
-      _orders = data['orders'];
-    });
   }
 
   Widget body() {

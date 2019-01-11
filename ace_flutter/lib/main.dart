@@ -67,6 +67,14 @@ class _RootState extends State<Root> {
             });
           },
         ),
-        body: _viewControllers[_selectedIndex]);
+        body: body()
+    );
+  }
+
+
+  Widget body() {
+    return Scaffold(
+      body: _viewControllers[_selectedIndex],
+    );
   }
 }

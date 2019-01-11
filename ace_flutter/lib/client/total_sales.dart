@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import '../utils/networking.dart';
 import 'detail.dart';
-import 'dart:io';
-import 'dart:convert';
+
 
 class TotalSales extends StatefulWidget {
   @override
@@ -22,7 +22,15 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
   void initState() {
     // TODO: implement initState
     super.initState();
-    getData();
+
+    Networking().post('/client/type=0', (data) {
+      if (mounted) {
+        setState(() {
+          var list = data['list'];
+          _clients = list;
+        });
+      }
+    });
   }
 
   @override
@@ -30,32 +38,6 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
     return Scaffold(
       body: listView(),
     );
-  }
-
-  getData() async {
-    String host = 'https://www.easy-mock.com/mock/5c3590153df7227eb0a9d485/acestore';
-    String method = '/client/type=0';
-
-    var data;
-
-    var http = new HttpClient();
-    var url = Uri.parse(host + method);
-    var request = await http.postUrl(url);
-    var response = await request.close();
-    var responseBody = await response.transform(utf8.decoder).join();
-    print('开始请求');
-    if (response.statusCode == 200) {
-      print('请求成功');
-      Map responseJson = json.decode(responseBody);
-      data = responseJson['data'];
-    } else {
-      print('请求失败:' + url.toString() + '\n' + responseBody);
-    }
-
-    setState(() {
-      var list = data['list'];
-      _clients = list;
-    });
   }
 
   Widget listView() {
