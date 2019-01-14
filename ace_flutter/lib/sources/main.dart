@@ -34,21 +34,34 @@ class Root extends StatefulWidget {
   }
 }
 
-class _RootState extends State<Root> {
-  int _selectedIndex = 0;
-  var _viewControllers = [
-    new Store(),
-    new Client(),
-    new Mine(),
-  ];
+class _RootState extends State<Root> with SingleTickerProviderStateMixin {
+  int _currentIndex;
+  PageController _controller;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _currentIndex = 0;
+    _controller = PageController(initialPage: 0);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color(0xF5F5F5FF),
         bottomNavigationBar: CupertinoTabBar(
-          iconSize: 25,
           activeColor: Colors.black,
+          currentIndex: _currentIndex,
+          iconSize: 25,
+          onTap: (int index) {
+            if (mounted) {
+              setState(() {
+                _currentIndex = index;
+                _controller.jumpToPage(index);
+              });
+            }
+          },
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage('assets/images/tabbar_store.png')),
@@ -60,21 +73,16 @@ class _RootState extends State<Root> {
                 icon: ImageIcon(AssetImage('assets/images/tabbar_mine.png')),
                 title: Text('我的')),
           ],
-          currentIndex: _selectedIndex,
-          onTap: (int index) {
-            setState(() {
-              _selectedIndex = index;
-            });
-          },
         ),
-        body: body()
-    );
+        
+        body: body());
   }
 
-
   Widget body() {
-    return Scaffold(
-      body: _viewControllers[_selectedIndex],
-    );
+    return PageView(
+        physics: NeverScrollableScrollPhysics(),
+        controller: _controller,
+        children: [new Store(), new Client(), new Mine(),
+        ]);
   }
 }

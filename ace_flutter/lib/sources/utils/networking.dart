@@ -18,7 +18,6 @@ class Networking {
         var data = responseJson['data'];
         callback(data);
       } else {
-        callback();
       }
     });
   }
