@@ -53,7 +53,7 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
       {} // 空白
     ];
 
-    Networking().post('/today', (data) {
+    Networking().post('/today', (data){
       if (mounted) {
         setState(() {
           _turnover = data['turnover'];
@@ -61,7 +61,9 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
           _orders = data['orders'];
         });
       }
-   });
+    }, (error){
+      print(error);
+    });
   }
 
   @override

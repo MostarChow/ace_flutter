@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'modules/store/store.dart';
-import 'modules/client/client.dart';
-import 'modules/mine/mine.dart';
+import 'sources/modules/store/store.dart';
+import 'sources/modules/client/client.dart';
+import 'sources/modules/mine/mine.dart';
 
 /// Main
 
@@ -19,6 +19,7 @@ class Main extends StatelessWidget {
     return MaterialApp(
       home: Root(),
       theme: ThemeData(
+        brightness: Brightness.light,
         primaryColor: Colors.white,
         accentColor: Colors.black,
       ),
@@ -74,15 +75,25 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
                 title: Text('我的')),
           ],
         ),
-        
         body: body());
   }
 
   Widget body() {
     return PageView(
-        physics: NeverScrollableScrollPhysics(),
-        controller: _controller,
-        children: [new Store(), new Client(), new Mine(),
-        ]);
+      physics: NeverScrollableScrollPhysics(),
+      controller: _controller,
+      children: [
+        new Store(),
+        new Client(),
+        new Mine(),
+      ],
+      onPageChanged: (int index) {
+        if (mounted) {
+          setState(() {
+            _currentIndex = index;
+          });
+        }
+      },
+    );
   }
 }

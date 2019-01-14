@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import '../../utils/networking.dart';
 import 'detail.dart';
 
@@ -28,6 +29,8 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
           _clients = list;
         });
       }
+    }, (error){
+
     });
   }
 
@@ -55,7 +58,7 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
       children: <Widget>[
         // 头像
         ClipOval(
-          child: Image.network(imageUrl, fit: BoxFit.fill, width: 50, height: 50),
+          child: CachedNetworkImage(imageUrl: imageUrl, fit: BoxFit.fill, width: 50, height: 50),
         ),
         // 文字
         Expanded(child:textView(index)),
