@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../utils/networking.dart';
+
+import '../../common/resources/colors.dart';
+import '../../common/utils/networking.dart';
 import 'detail.dart';
 
 class ShoppingTimes extends StatefulWidget {
@@ -22,7 +24,7 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
   void initState() {
     // TODO: implement initState
     super.initState();
-    Networking().post('/client/type=2', (data) {
+    Networking().request('/client/type=2', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];
@@ -71,12 +73,12 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(child: view, padding: EdgeInsets.all(15)),
-          Container(color: Color(0x6666666F), height: 0.5)
+          Container(color: MCColors.line_color, height: 0.5)
         ],
       ),
     );
 
-    return MaterialButton(
+    return FlatButton(
       onPressed: () {
         Navigator.push(context, new MaterialPageRoute(builder: (context) {
           // 点击
@@ -105,12 +107,12 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
             children: <Widget>[
               Text('购买次数',
                 style: TextStyle(fontSize: 16,
-                  color: Color.fromRGBO(153, 153, 153, 1),
+                  color: MCColors.primary_color,
                 ),
               ),
               Text(frequency.toString()+'次',
                 style: TextStyle(fontSize: 16,
-                  color: Color.fromRGBO(233, 0, 0, 1),
+                  color: MCColors.money_color,
                 ),
               )
             ],

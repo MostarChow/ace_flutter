@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../utils/networking.dart';
+
+import '../../common/resources/colors.dart';
+import '../../common/utils/networking.dart';
 import 'detail.dart';
 
-
-class TotalSales extends StatefulWidget {
+class RecentShopping extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _TotalSalesState();
+    return _RecentShoppingState();
   }
 }
 
-class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMixin {
+class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAliveClientMixin {
 
   @override
   // TODO: implement wantKeepAlive
@@ -23,8 +24,7 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Networking().post('/client/type=0', (data) {
+    Networking().request('/client/type=1', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];
@@ -47,8 +47,8 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
     return ListView.builder(
         itemCount: _clients.length,
         itemBuilder: (BuildContext context, int index){
-        return cell(index);
-    });
+          return cell(index);
+        });
   }
 
   Widget cell(int index) {
@@ -72,12 +72,12 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(child: view, padding: EdgeInsets.all(15)),
-          Container(color: Color(0x6666666F), height: 0.5)
+          Container(color: MCColors.line_color, height: 0.5)
         ],
       ),
     );
 
-    return MaterialButton(
+    return FlatButton(
       onPressed: () {
         Navigator.push(context, new MaterialPageRoute(builder: (context) {
           // 点击
@@ -93,7 +93,7 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
   Widget textView(int index) {
 
     var name = _clients[index]['username'];
-    double totalSales = _clients[index]['totalSales'];
+    String date = _clients[index]['date'];
 
     return Container(
       padding: EdgeInsets.only(left: 10),
@@ -104,14 +104,14 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
           Text(name, style: TextStyle(fontSize: 14)),
           Row(
             children: <Widget>[
-              Text('总交易额',
+              Text('最近交易于',
                 style: TextStyle(fontSize: 16,
-                  color: Color.fromRGBO(153, 153, 153, 1),
+                  color: MCColors.primary_color,
                 ),
               ),
-              Text('¥'+totalSales.toStringAsFixed(2),
+              Text(date,
                 style: TextStyle(fontSize: 16,
-                  color: Color.fromRGBO(233, 0, 0, 1),
+                  color: MCColors.money_color,
                 ),
               )
             ],
@@ -121,4 +121,5 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
       ),
     );
   }
+
 }

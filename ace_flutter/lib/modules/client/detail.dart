@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../common/utils/config.dart';
 
 class Detail extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _DetailState extends State<Detail> {
         Image.asset(
           'assets/images/client_header_bg.png',
           fit: BoxFit.fitWidth,
-          width: MediaQuery.of(context).size.width,
+          width: Config.maxWidth(context),
           height: 187,
         ),
         // 内容

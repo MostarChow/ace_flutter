@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../common/resources/colors.dart';
 import 'total_sales.dart';
 import 'recent_shopping.dart';
 import 'shopping_times.dart';
@@ -22,7 +23,6 @@ class _ClientState extends State<Client> with AutomaticKeepAliveClientMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _viewControllers = [
       new TotalSales(),
       new RecentShopping(),
@@ -52,6 +52,7 @@ class _ClientState extends State<Client> with AutomaticKeepAliveClientMixin {
 
   Widget tabBar() {
     return TabBar(
+        indicatorColor: MCColors.primary_color,
         tabs: <Widget> [
           Tab(text: '总交易额'),
           Tab(text: '最近购物'),

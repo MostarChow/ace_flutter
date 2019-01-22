@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'sources/modules/store/store.dart';
-import 'sources/modules/client/client.dart';
-import 'sources/modules/mine/mine.dart';
+
+import 'common/resources/colors.dart';
+import 'modules/store/store.dart';
+import 'modules/client/client.dart';
+import 'modules/mine/mine.dart';
 
 /// Main
 
@@ -21,7 +23,7 @@ class Main extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.white,
-        accentColor: Colors.black,
+        accentColor: MCColors.primary_color,
       ),
     );
   }
@@ -50,9 +52,9 @@ class _RootState extends State<Root> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: const Color(0xF5F5F5FF),
+        backgroundColor: MCColors.background_color,
         bottomNavigationBar: CupertinoTabBar(
-          activeColor: Colors.black,
+          activeColor: MCColors.primary_color,
           currentIndex: _currentIndex,
           iconSize: 25,
           onTap: (int index) {

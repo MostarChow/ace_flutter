@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import '../../utils/networking.dart';
+
+import '../../common/resources/colors.dart';
+import '../../common/utils/networking.dart';
 import '../settings/settings.dart';
 
 class Store extends StatefulWidget {
@@ -24,7 +26,6 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     _grids = [
       {
         "text": "店铺管理",
@@ -53,7 +54,7 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
       {} // 空白
     ];
 
-    Networking().post('/today', (data){
+    Networking().request('/today', (data){
       if (mounted) {
         setState(() {
           _turnover = data['turnover'];
@@ -82,7 +83,7 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
             }),
           ],
         ),
-        backgroundColor: Color(0xF5F5F5FF),
+        backgroundColor: MCColors.background_color,
 
         body: body()
     );

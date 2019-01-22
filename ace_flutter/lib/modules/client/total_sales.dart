@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '../../utils/networking.dart';
+
+import '../../common/resources/colors.dart';
+import '../../common/utils/networking.dart';
 import 'detail.dart';
 
-class RecentShopping extends StatefulWidget {
+
+class TotalSales extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _RecentShoppingState();
+    return _TotalSalesState();
   }
 }
 
-class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAliveClientMixin {
+class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMixin {
 
   @override
   // TODO: implement wantKeepAlive
@@ -22,7 +25,8 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
   void initState() {
     // TODO: implement initState
     super.initState();
-    Networking().post('/client/type=1', (data) {
+
+    Networking().request('/client/type=0', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];
@@ -45,8 +49,8 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
     return ListView.builder(
         itemCount: _clients.length,
         itemBuilder: (BuildContext context, int index){
-          return cell(index);
-        });
+        return cell(index);
+    });
   }
 
   Widget cell(int index) {
@@ -70,12 +74,12 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Container(child: view, padding: EdgeInsets.all(15)),
-          Container(color: Color(0x6666666F), height: 0.5)
+          Container(color: MCColors.line_color, height: 0.5)
         ],
       ),
     );
 
-    return MaterialButton(
+    return FlatButton(
       onPressed: () {
         Navigator.push(context, new MaterialPageRoute(builder: (context) {
           // 点击
@@ -91,7 +95,7 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
   Widget textView(int index) {
 
     var name = _clients[index]['username'];
-    String date = _clients[index]['date'];
+    double totalSales = _clients[index]['totalSales'];
 
     return Container(
       padding: EdgeInsets.only(left: 10),
@@ -102,14 +106,14 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
           Text(name, style: TextStyle(fontSize: 14)),
           Row(
             children: <Widget>[
-              Text('最近交易于',
+              Text('总交易额',
                 style: TextStyle(fontSize: 16,
-                  color: Color.fromRGBO(153, 153, 153, 1),
+                  color: MCColors.primary_color,
                 ),
               ),
-              Text(date,
+              Text('¥'+totalSales.toStringAsFixed(2),
                 style: TextStyle(fontSize: 16,
-                  color: Color.fromRGBO(233, 0, 0, 1),
+                  color: MCColors.money_color,
                 ),
               )
             ],
@@ -119,5 +123,4 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
       ),
     );
   }
-
 }

@@ -1,19 +1,17 @@
-import 'package:http/http.dart' as networking;
+import 'package:http/http.dart' as http;
+import 'config.dart';
 import 'dart:convert';
 
 class Networking {
 
-  // 主机地址
-  String  _host = 'https://www.easy-mock.com/mock/5c3590153df7227eb0a9d485/acestore';
   // 头部
-  Map<String, String> _headers = <String, String>
-  {
-  'Accept-Encoding' : 'gzip, deflate, sdch'
+  Map<String, String> _headers = <String, String>{
+    'Accept-Encoding': 'gzip, deflate, sdch'
   };
 
-  void post(String method, callback, error) {
-    var url = _host + method;
-    networking.post(url, headers: _headers).then((response) {
+  void request(String method, callback, error) {
+    var url = Config.host() + method;
+    http.post(url, headers: _headers).then((response) {
       var responseBody = response.body;
       if (response.statusCode == 200) {
         // 请求成功
