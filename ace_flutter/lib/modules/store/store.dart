@@ -20,39 +20,34 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
   double _turnover = 0;
   int _visitors = 0;
   int _orders = 0;
-  var _grids = List();
+  var _grids = [
+    {
+      "text": "店铺管理",
+      "icon": ImageIcon(AssetImage('assets/images/store_management.png'), size: 33)
+    },
+    {
+      "text": "推广信息",
+      "icon": ImageIcon(AssetImage('assets/images/store_popularize.png'), size: 33)
+    },
+    {
+      "text": "数据统计",
+      "icon": ImageIcon(AssetImage('assets/images/store_statistics.png'), size: 33)
+    },
+    {
+      "text": "订单管理",
+      "icon": ImageIcon(AssetImage('assets/images/store_order.png'), size: 33)
+    },
+    {
+      "text": "退换售后",
+      "icon": ImageIcon(AssetImage('assets/images/store_after-sales.png'), size: 33)
+    },
+    {} // 空白
+  ];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _grids = [
-      {
-        "text": "店铺管理",
-        "icon": ImageIcon(
-            AssetImage('assets/images/store_management.png'), size: 33)
-      },
-      {
-        "text": "推广信息",
-        "icon": ImageIcon(
-            AssetImage('assets/images/store_popularize.png'), size: 33)
-      },
-      {
-        "text": "数据统计",
-        "icon": ImageIcon(
-            AssetImage('assets/images/store_statistics.png'), size: 33)
-      },
-      {
-        "text": "订单管理",
-        "icon": ImageIcon(AssetImage('assets/images/store_order.png'), size: 33)
-      },
-      {
-        "text": "退换售后",
-        "icon": ImageIcon(
-            AssetImage('assets/images/store_after-sales.png'), size: 33)
-      },
-      {} // 空白
-    ];
 
     Networking().request('/today', (data){
       if (mounted) {

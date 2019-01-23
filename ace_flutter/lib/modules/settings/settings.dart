@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import '../../common/resources/colors.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -45,13 +46,14 @@ class _SettingsState extends State<Settings> {
         print(index.toString());
       };
     }
-    return MaterialButton(
+    return FlatButton(
       onPressed: onPressed,
       child: contentView(index),
       padding: EdgeInsets.zero,
       color: Colors.white,
-      textColor: Colors.black,
-      disabledTextColor: Colors.black,
+      disabledColor: Colors.white,
+      textColor: MCColors.primary_color,
+      disabledTextColor: MCColors.primary_color,
     );
   }
 
@@ -62,7 +64,7 @@ class _SettingsState extends State<Settings> {
     var children = List<Widget>();
     if (type == 0) {
       children.add(Text(title, style: TextStyle(fontSize: 16)));
-      children.add(Icon(Icons.keyboard_arrow_right));
+      children.add(Image.asset('assets/images/arrows_right_gray.png', height: 14,),);
     } else {
       children.add(Text(title + 'V1.0', style: TextStyle(fontSize: 16)));
     }
@@ -79,7 +81,7 @@ class _SettingsState extends State<Settings> {
           ),
         ),
         Container(
-          color: Color(0x6666666F),
+          color: MCColors.line_color,
           height: 0.5,
         )
       ],

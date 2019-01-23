@@ -8,7 +8,6 @@ import 'modules/client/client.dart';
 import 'modules/mine/mine.dart';
 
 /// Main
-
 void main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -19,12 +18,12 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Root(),
       theme: ThemeData(
         brightness: Brightness.light,
         primaryColor: Colors.white,
         accentColor: MCColors.primary_color,
       ),
+      home: Root(),
     );
   }
 }
@@ -38,16 +37,9 @@ class Root extends StatefulWidget {
 }
 
 class _RootState extends State<Root> with SingleTickerProviderStateMixin {
-  int _currentIndex;
-  PageController _controller;
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _currentIndex = 0;
-    _controller = PageController(initialPage: 0);
-  }
+  int _currentIndex = 0;
+  PageController _controller = PageController(initialPage: 0);
 
   @override
   Widget build(BuildContext context) {

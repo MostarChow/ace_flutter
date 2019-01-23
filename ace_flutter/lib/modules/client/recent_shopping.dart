@@ -64,7 +64,7 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
         // 文字
         Expanded(child:textView(index)),
         // 箭头
-        Icon(Icons.keyboard_arrow_right)
+        Image.asset('assets/images/arrows_right_gray.png', height: 14,),
       ],
     );
     Widget contentView = Container(

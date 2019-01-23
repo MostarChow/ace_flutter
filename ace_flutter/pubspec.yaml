@@ -70,6 +70,7 @@ flutter:
   # see https://flutter.io/custom-fonts/#from-packages
 
   assets:
+    - assets/images/arrows_right_gray.png
     - assets/images/tabbar_store.png
     - assets/images/tabbar_user.png
     - assets/images/tabbar_mine.png
@@ -82,3 +83,6 @@ flutter:
     - assets/images/client_header_bg.png
     - assets/images/client_spade.png
     - assets/images/client_add_tag_small.png
+    - assets/images/mine_account.png
+    - assets/images/mine_enterprise.png
+    - assets/images/mine_contacts.png
