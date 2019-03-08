@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
 import '../../common/resources/colors.dart';
@@ -79,7 +80,7 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
 
     return FlatButton(
       onPressed: () {
-        Navigator.push(context, new MaterialPageRoute(builder: (context) {
+        Navigator.push(context, new CupertinoPageRoute(builder: (context) {
           // 点击
           return Detail();
         }));

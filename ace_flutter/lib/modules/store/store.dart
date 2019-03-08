@@ -72,7 +72,7 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
             // 设置
             IconButton(icon: Icon(Icons.settings), onPressed: () {
               Navigator.of(context).push(
-                  new MaterialPageRoute(builder: (context) {
+                  new CupertinoPageRoute(builder: (context) {
                     return new Settings();
                   }));
             }),
