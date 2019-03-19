@@ -27,7 +27,7 @@ class _TotalSalesState extends State<TotalSales> with AutomaticKeepAliveClientMi
     // TODO: implement initState
     super.initState();
 
-    Networking().request('/client/type=0', (data) {
+    Networking().request(context, '/client/type=0', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];

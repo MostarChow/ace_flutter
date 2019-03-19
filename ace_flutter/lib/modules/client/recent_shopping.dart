@@ -25,7 +25,7 @@ class _RecentShoppingState extends State<RecentShopping> with AutomaticKeepAlive
   void initState() {
     // TODO: implement initState
     super.initState();
-    Networking().request('/client/type=1', (data) {
+    Networking().request(context, '/client/type=1', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];

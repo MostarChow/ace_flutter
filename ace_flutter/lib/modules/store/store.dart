@@ -5,6 +5,8 @@ import '../../common/resources/colors.dart';
 import '../../common/utils/networking.dart';
 import '../settings/settings.dart';
 
+import 'package:mc_framework/mc_framework.dart';
+
 class Store extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -15,7 +17,7 @@ class Store extends StatefulWidget {
 class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 
   double _turnover = 0;
   int _visitors = 0;
@@ -49,7 +51,12 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
     // TODO: implement initState
     super.initState();
 
-    Networking().request('/today', (data){
+    var name = McFramework().getName();
+    name.then((value) {
+      print("我来了 ：" + value);
+    });
+
+    Networking().request(context, '/today', (data){
       if (mounted) {
         setState(() {
           _turnover = data['turnover'];
@@ -58,7 +65,7 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
         });
       }
     }, (error){
-      print(error);
+      debugPrint(error);
     });
   }
 
@@ -71,10 +78,11 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
           actions: <Widget>[
             // 设置
             IconButton(icon: Icon(Icons.settings), onPressed: () {
-              Navigator.of(context).push(
-                  new CupertinoPageRoute(builder: (context) {
-                    return new Settings();
-                  }));
+              McFramework().goPage();
+//              Navigator.of(context).push(
+//                  new CupertinoPageRoute(builder: (context) {
+//                    return new Settings();
+//                  }));
             }),
           ],
         ),
@@ -163,7 +171,7 @@ class _StoreState extends State<Store> with AutomaticKeepAliveClientMixin {
         color: Colors.white,
         child: MaterialButton(
           onPressed: () {
-            print(title);
+            debugPrint(title);
           },
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,

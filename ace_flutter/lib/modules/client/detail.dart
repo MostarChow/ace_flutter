@@ -132,7 +132,7 @@ class _DetailState extends State<Detail> {
                     minWidth: 60,
                     padding: EdgeInsets.zero,
                     onPressed: () {
-                      print('添加标签');
+                      debugPrint('添加标签');
                     },
                     child: Image(
                         image: AssetImage(

@@ -41,7 +41,7 @@ class _ClientState extends State<Client> with AutomaticKeepAliveClientMixin {
                 IconButton(
                     icon: Icon(Icons.search),
                     onPressed: (){
-                      print('点击搜索');
+                      debugPrint('点击搜索');
                     }),
               ],
               bottom: tabBar(),

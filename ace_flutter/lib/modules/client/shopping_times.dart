@@ -25,7 +25,7 @@ class _ShoppingTimesState extends State<ShoppingTimes> with AutomaticKeepAliveCl
   void initState() {
     // TODO: implement initState
     super.initState();
-    Networking().request('/client/type=2', (data) {
+    Networking().request(context, '/client/type=2', (data) {
       if (mounted) {
         setState(() {
           var list = data['list'];

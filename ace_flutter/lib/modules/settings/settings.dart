@@ -43,7 +43,7 @@ class _SettingsState extends State<Settings> {
     var onPressed;
     if (type == 0) {
       onPressed = () {
-        print(index.toString());
+        debugPrint(index.toString());
       };
     }
     return FlatButton(
